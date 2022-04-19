@@ -1,77 +1,77 @@
 window.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
-    let burgerBtn = document.querySelector('.burger'),
-        burgerMenu = document.querySelector('.burger-menu'),
-        burgerClose = document.querySelector('.burger__close');
+    function clickBtn (triggerSelector, modalSelector, closeSelector) {
+        const trigger = document.querySelectorAll(triggerSelector),
+            modal = document.querySelector(modalSelector),
+            overlay = document.querySelector('.overlay'),
+            close = document.querySelector(closeSelector);
 
-        burgerBtn.addEventListener('click', () => {
-            burgerMenu.style.display = 'block';
-            overlay.style.display = 'block';
-        });
-        burgerClose.addEventListener('click', () => {
-            burgerMenu.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-
-    let btnNav = document.querySelector('.nav__btn'),
-        popUp = document.querySelector('.pop-up'),
-        overlay = document.querySelector('.overlay'),
-        closeBtn = document.querySelector('.pop-up__close'),
-        btnGet = document.querySelector('.get-in-touch__btn'),
-        burgerGet = document.querySelector('.burger__get');
-
-    btnNav.addEventListener('click', () => {
-        document.body.style.overflow = 'hidden';
-        popUp.style.display = 'block';
-        overlay.style.display = 'block';
-    }); 
-
-    btnGet.addEventListener('click', () => {
-        document.body.style.overflow = 'hidden';
-        popUp.style.display = 'block';
-        overlay.style.display = 'block';
-    }); 
-    
-    burgerGet.addEventListener('click', () => {
-        document.body.style.overflow = 'hidden';
-        popUp.style.display = 'block';
-        overlay.style.display = 'block';
-    }); 
-
-
-    closeBtn.addEventListener('click', () => {
-        document.body.style.overflow = 'visible';
-        popUp.style.display = 'none';
-        overlay.style.display = 'none';
-    });
-
-
-
-        let tab = document.querySelectorAll('.projects__item'),
-            hiddenContent = document.querySelectorAll('.projects__hidden'),
-            info = document.querySelector('.projects__list');
-
-           
-           tab.forEach((item) => { 
-            item.addEventListener('mouseover', (e)=>{
-                console.log(e);
-                hiddenContent.forEach(i => {
-                    i.style.display = 'block';
-                    });
-                });
+        trigger.forEach(item => {
+            item.addEventListener('click', (e)=> {
+                if (e.target) {
+                    e.preventDefault();
+                }
+                modal.style.display = 'block';
+                overlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
             });
-            tab.forEach((item) => { 
-                item.addEventListener('mouseleave', (e)=>{
-                    console.log(e);
-                    hiddenContent.forEach(i => {
-                        i.style.display = 'none';
-                        });
-                    });
+        });
+
+        close.addEventListener('click', () => {
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+
+    }
+    clickBtn('.burger', '.burger-menu', '.burger__close');
+    clickBtn('.nav__btn', '.pop-up', '.pop-up__close');
+    clickBtn('.get-in-touch__btn', '.pop-up', '.pop-up__close');
+    clickBtn('.burger__get', '.pop-up', '.pop-up__close');
+    
+    function tabs (headerSelector, tabSelector, contentSelector) {
+        const header = document.querySelector(headerSelector),
+            tab = document.querySelectorAll(tabSelector),
+            content = document.querySelectorAll(contentSelector);
+    
+        function hideTabContent() {
+            content.forEach(item => {
+                item.style.display = 'none';
+            });
+        }
+    
+        function showTabContent(i = 1) {
+            content[i].style.display = 'block';
+        }
+    
+        hideTabContent();
+        showTabContent();
+    
+        header.addEventListener('mouseover', (e) => {
+            const target = e.target;
+    
+            if (target &&
+                (target.classList.contains(tabSelector.replace(/\./, '')) || 
+            target.parentNode.classList.contains(tabSelector.replace(/\./, '')))) {
+                tab.forEach((item, i) => {
+                    if ( target == item || target.parentNode == item) {
+                        hideTabContent();
+                        showTabContent(i);
+                    }
                 });
-
+            }
+        });
+    }
+    
+    tabs('.projects__list', '.projects__item', '.projects__hidden');
         
-
-        
-
 });
