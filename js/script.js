@@ -31,8 +31,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = '';
             }
         });
-
     }
+    
     clickBtn('.burger', '.burger-menu', '.burger__close');
     clickBtn('.nav__btn', '.pop-up', '.pop-up__close');
     clickBtn('.get-in-touch__btn', '.pop-up', '.pop-up__close');
